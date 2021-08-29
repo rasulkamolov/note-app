@@ -1,3 +1,4 @@
+import 'package:flutsql/screens/note_detail.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -26,6 +27,7 @@ class NoteListState extends State<NoteList>{
       floatingActionButton: FloatingActionButton(
         onPressed: (){
           debugPrint('FAB clicked');
+          NavigateToDetail("Add Note");
         },
         tooltip: 'Add Note',
         child: Icon(Icons.add),
@@ -52,10 +54,16 @@ class NoteListState extends State<NoteList>{
 
             onTap: (){
               debugPrint("ListTile tapped");
+              NavigateToDetail("Edit Note");
             },
           ),
         );
       },
     );
+  }
+  void NavigateToDetail(String title){
+    Navigator.push(context, MaterialPageRoute(builder: (context){
+            return NoteDetail(title);
+          }));
   }
 }

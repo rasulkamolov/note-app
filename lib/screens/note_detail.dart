@@ -1,23 +1,39 @@
 import 'package:flutter/material.dart';
 
 class NoteDetail extends StatefulWidget {
-  const NoteDetail() : super();
+const NoteDetail(this.appBarTitle) : super();
+  final String appBarTitle;
 
   @override
-  _NoteDetailState createState() => _NoteDetailState();
+  _NoteDetailState createState() {
+    return _NoteDetailState(this.appBarTitle);
+  } 
 }
 
 class _NoteDetailState extends State<NoteDetail> {
+  String appBarTitle;
   static var _priorities = ['High', 'Low'];
-
   TextEditingController titleController = TextEditingController();
   TextEditingController descController = TextEditingController();
+  _NoteDetailState(this.appBarTitle);
+  bool isTrue = true;
+
   @override
   Widget build(BuildContext context) {
     TextStyle? textStyle = Theme.of(context).textTheme.headline6;
-    return Scaffold(
+    return WillPopScope(
+      onWillPop: _onWillPop,
+     child: Scaffold(
       appBar: AppBar(
-        title: Text('Edit'),
+        title: Text(appBarTitle),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back,
+          
+          ), 
+          onPressed: () {
+            moveToLastScreen();
+            },
+        ),
       ),
       body: Padding(
         padding: EdgeInsets.only(top: 15.0, left: 10.0, right: 10.0),
@@ -62,13 +78,13 @@ class _NoteDetailState extends State<NoteDetail> {
             Padding(
             padding:EdgeInsets.only(top: 15.0,bottom: 15.0),
             child: TextField(
-              controller: titleController,
+              controller: descController,
               style: textStyle,
               onChanged: (vale){
                 debugPrint('Something changed');          
               },
               decoration: InputDecoration(
-                labelText: 'Title',
+                labelText: 'Description',
                 labelStyle: textStyle,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(5.0)
@@ -91,6 +107,7 @@ class _NoteDetailState extends State<NoteDetail> {
                        child: Text('Save')
                        ),
                        ),
+                       SizedBox(width: 5.0,),
 
                        Expanded(
                     child: ElevatedButton(
@@ -111,6 +128,20 @@ class _NoteDetailState extends State<NoteDetail> {
         ),
         ),
 
+    )
     );
   }
+void moveToLastScreen() {
+  Navigator.pop(context);
 }
+Future<bool> _onWillPop() async {
+    return (await showDialog(
+      context: context,
+      builder: (context) => new AlertDialog(),
+    )) ?? false;
+  }
+}
+
+
+
+
