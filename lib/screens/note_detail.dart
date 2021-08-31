@@ -1,21 +1,24 @@
+import 'package:flutsql/models/note.dart';
 import 'package:flutter/material.dart';
 
 class NoteDetail extends StatefulWidget {
-const NoteDetail(this.appBarTitle) : super();
+const NoteDetail(this.note,this.appBarTitle) : super();
   final String appBarTitle;
+  final Note note;
 
   @override
   _NoteDetailState createState() {
-    return _NoteDetailState(this.appBarTitle);
+    return _NoteDetailState(this.note,this.appBarTitle);
   } 
 }
 
 class _NoteDetailState extends State<NoteDetail> {
+  Note note;
   String appBarTitle;
   static var _priorities = ['High', 'Low'];
   TextEditingController titleController = TextEditingController();
   TextEditingController descController = TextEditingController();
-  _NoteDetailState(this.appBarTitle);
+  _NoteDetailState(this.note, this.appBarTitle);
   bool isTrue = true;
 
   @override
